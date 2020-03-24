@@ -34,10 +34,6 @@ while flag:
                 else:
                     print("Alarm!\nНеизвесная ошибка!\nЭкстренный выход из программы.")
                     exit()
-            else:
-                print("Параметра не обнаружено.\nЗаканчиваю цикл программы.")
-                break
-
     for i in range(5):
         command = (input("Хотите повторить программу?(Y/N)"))
         if command == "Y":
