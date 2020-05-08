@@ -25,7 +25,7 @@ class Main(ABC):
     def decrypt(self):
         pass
 
-    def __way_test(self, format):
+    def _way_test(self, format):
         while True:
             way = input("Введите путь или имя файла  с расширением ." + str(format) + "\n"
                                                                                       "\t>>")
@@ -53,7 +53,7 @@ class Main(ABC):
                     exit()
         return way
 
-    def __decrypt_file(self, file_decrypt_name):
+    def _decrypt_file(self, file_decrypt_name):
         split_name = file_decrypt_name.split('.')
         file_text_name = [x for x in range(len(split_name) - 1)]
         if len(split_name) > 2:
@@ -147,12 +147,12 @@ class Method_2(Main):
 
     def encrypt(self):
         while True:
-            file_text_name = self.__way_test('txt')
+            file_text_name = self._way_test('txt')
             file_name_encrypt = file_text_name + '.encrypt'  # название файла шифртекста
             file_en = open(file_name_encrypt, 'w')  # Открываем файл и очищаем его, или создаём файл
             file_en.close()  # Закрываем файл
 
-            key_list = self.key_error(self.__way_test('key'))
+            key_list = self.key_error(self._way_test('key'))
             if key_list == False:
                 break
 
@@ -186,7 +186,7 @@ class Method_2(Main):
             break
 
     def decrypt(self):
-        file_decrytp_text_name = self.__decrypt_file(self.__way_test('encrypt'))  # 0 - шифртекст, 1 - текст
+        file_decrytp_text_name = self._decrypt_file(self._way_test('encrypt'))  # 0 - шифртекст, 1 - текст
         while True:
 
             while True:
@@ -201,7 +201,7 @@ class Method_2(Main):
                     else:
                         print("Неизвестная ошибка!")
                         exit()
-                    split_key = self.key_error(self.__way_test('key'))
+                    split_key = self.key_error(self._way_test('key'))
                     key_app_qua = int(len(file_de.readline()) / len(split_key))
                     file_de.seek(0)
                     file_de.readline()
@@ -232,7 +232,7 @@ class Method_2(Main):
 
 class Method_1(Main):
     def genkey(self):
-        file_a_name = self.__way_test('alph')
+        file_a_name = self._way_test('alph')
         with open(file_a_name, 'r', encoding='utf-8') as file_alph:
             size_alph = len(file_alph.readlines())
             alph_list = [x for x in range(size_alph)]
@@ -339,7 +339,7 @@ class Method_1(Main):
             break
         return alph, key
 
-    def __encrypt_writhe(self, file_text_name, file_name_encrypt, alph_key, encoding):
+    def _encrypt_writhe(self, file_text_name, file_name_encrypt, alph_key, encoding):
         with open(file_text_name, 'r', encoding=encoding) as file_txt:
             file_txt.seek(0)
             file_size = len(file_txt.read())
@@ -360,17 +360,17 @@ class Method_1(Main):
               "Возврат в главное меню.")
 
     def encrypt(self):
-        file_text_name = self.__way_test('txt')
+        file_text_name = self._way_test('txt')
         file_name_encrypt = file_text_name + '.encrypt'  # название файла шифртекста
         file_en = open(file_name_encrypt, 'w')  # Открываем файл и очищаем его, или создаём файл
         file_en.close()  # Закрываем файл
-        alph_key = self.key_error(self.__way_test('key'))
+        alph_key = self.key_error(self._way_test('key'))
         if alph_key != False:
             try:
-                self.__encrypt_writhe(file_text_name, file_name_encrypt, alph_key, 'utf-8')
+                self._encrypt_writhe(file_text_name, file_name_encrypt, alph_key, 'utf-8')
                 print("Encoding: utf-8")
             except UnicodeDecodeError:
-                self.__encrypt_writhe(file_text_name, file_name_encrypt, alph_key, 'windows-1251')
+                self._encrypt_writhe(file_text_name, file_name_encrypt, alph_key, 'windows-1251')
                 print("Encoding: windows-1251")
         elif alph_key == False:
             print('Возвращение в главное меню')
@@ -379,7 +379,7 @@ class Method_1(Main):
             exit()
 
     def decrypt(self):
-        file_decrytp_text_name = self.__decrypt_file(self.__way_test('encrypt'))  # 0 - шифртекст, 1 - текст
+        file_decrytp_text_name = self._decrypt_file(self._way_test('encrypt'))  # 0 - шифртекст, 1 - текст
         while True:
             with open(file_decrytp_text_name[0], 'r', encoding='windows-1251')as file_de:
                 file_de.seek(0)
@@ -392,7 +392,7 @@ class Method_1(Main):
                 else:
                     print("Неизвестная ошибка!")
                     exit()
-            alph_key = self.key_error(self.__way_test('key'))
+            alph_key = self.key_error(self._way_test('key'))
             if alph_key != False:
                 with open(file_decrytp_text_name[0], 'r', encoding='windows-1251') as file_crypt:
                     file_size = len(file_crypt.read())
@@ -426,7 +426,7 @@ class Method_1(Main):
 class Method_3(Main):
     def genkey(self):
         print("Необходимо ввести алфавит для которого будет генерироваться ключ.")
-        file_alph_name = self.__way_test('alph')
+        file_alph_name = self._way_test('alph')
         with open(file_alph_name, 'r', encoding='utf-8')as file_alph:
             size_alph = len(file_alph.readlines())
             alph_list = [x for x in range(size_alph)]
@@ -534,11 +534,11 @@ class Method_3(Main):
 
     def encrypt(self):
         while True:
-            file_text_name = self.__way_test('txt')
+            file_text_name = self._way_test('txt')
             file_name_encrypt = file_text_name + '.encrypt'  # название файла шифртекста
             file_en = open(file_name_encrypt, 'w')  # Открываем файл и очищаем его, или создаём файл
             file_en.close()  # Закрываем файл
-            file_alph_key = self.key_error(self.__way_test('key'))  # 0 - алфавит, 1 - ключ/гамма
+            file_alph_key = self.key_error(self._way_test('key'))  # 0 - алфавит, 1 - ключ/гамма
             if file_alph_key == False:
                 break
             size_key = len(file_alph_key[1])
@@ -576,7 +576,7 @@ class Method_3(Main):
             break
 
     def decrypt(self):
-        file_decrytp_text_name = self.__decrypt_file(self.__way_test('encrypt'))  # 0 - шифртекст, 1 - текст
+        file_decrytp_text_name = self._decrypt_file(self._way_test('encrypt'))  # 0 - шифртекст, 1 - текст
         while True:
             with open(file_decrytp_text_name[0], 'r', encoding='utf-8')as file_de:
                 file_de.seek(0)
@@ -589,7 +589,7 @@ class Method_3(Main):
                 else:
                     print("Неизвестная ошибка!")
                     exit()
-            file_alph_key = self.key_error(self.__way_test('key'))  # 0 - алфавит, 1 - ключ/гамма
+            file_alph_key = self.key_error(self._way_test('key'))  # 0 - алфавит, 1 - ключ/гамма
             size_key = len(file_alph_key[1])
             if file_alph_key == False:
                 break
