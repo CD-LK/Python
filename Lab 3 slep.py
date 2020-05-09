@@ -95,16 +95,15 @@ class Method_2(Main):
                         print("Вы ввели не целое число.\n"
                               "Попытайтесь снова.")
                     else:
-                        break
-                    if len_key < 2:
-                        print("Некоректная длинна ключа.\n"
-                              "Попытайтесь снова.")
-                        continue
-                    elif len_key > 2:
-                        print('')
-                    else:
-                        print("Неизвестная ошибка!")
-                        exit()
+                        if len_key <= 2:
+                            print("Длина ключа должна быть больше 2.\n"
+                                  "Попытайтесь снова.")
+                            continue
+                        elif len_key > 2:
+                            break
+                        else:
+                            print("Неизвестная ошибка!")
+                            exit()
 
                 key_list = [x for x in range(1, int(len_key))]
                 random.shuffle(key_list)
@@ -113,9 +112,10 @@ class Method_2(Main):
                 key_file.write("Перестановка")
                 print("Ключ сгенирирован.\n"
                       "Возврат в главное меню.")
-            finally:
                 key_file.close()
                 break
+
+
 
     def key_error(self, key_name):
         while True:
@@ -267,7 +267,6 @@ class Method_1(Main):
                 key_file.writelines('Замена')
                 print("Ключ сгенирирован.\n"
                       "Возврат в главное меню.")
-            finally:
                 key_file.close()
                 break
 
@@ -280,7 +279,7 @@ class Method_1(Main):
                     file_key.readline()
                 f = file_key.readline()
                 if f == 'Замена':
-                    print('')
+                    pass
                 elif f != 'Замена':
                     print("Недопустимы тип ключа.\n"
                           "Пожалуйста сгенерируйте ключ.\n")
@@ -384,9 +383,9 @@ class Method_1(Main):
             with open(file_decrytp_text_name[0], 'r', encoding='windows-1251')as file_de:
                 file_de.seek(0)
                 if file_de.readline() == 'Замена\n':
-                    print()
+                    pass
                 elif file_de.readline() != 'Замена\n':
-                    print("Файл шифртекста не совпадает с методом расшифровкию"
+                    print("Файл шифртекста не совпадает с методом расшифровки.\n"
                           "Возврат в главное меню.")
                     break
                 else:
@@ -444,46 +443,49 @@ class Method_3(Main):
                 except IndexError:
                     continue
         mod = len(alph_list)
-        file_key_name = input("Введите имя файла ключа.\n"
-                              "\t>>")
-        file_key_name = file_key_name + '.key'
-        try:
-            file_key = open(file_key_name, 'w', encoding='utf-8')
-        except Exception:
-            print("Неккоректный ввод.\n"
-                  "Попробуйтесново")
-        else:
-            while True:
-                try:
-                    len_key = int(input('Введите длину ключа.\n'
-                                        '\t>>'))
-                except ValueError:
-                    print("Необходимо ввести целочисленное значение."
-                          "Попробуйте сново.")
-                    continue
-                else:
-                    if len_key > 2:
-                        key_list = [x for x in range(len_key)]
-                        file_key.write(alph_list[0])
-                        for i in range(1, len(alph_list)):
-                            file_key.write(' - ' + str(alph_list[i]))
-                        file_key.write('\n')
-                        key_list[0] = random.randint(0, mod)
-                        file_key.write(str(key_list[0]))
-                        for i in range(1, len_key):
-                            key_list[i] = random.randint(0, mod)
-                            file_key.write(' - ' + str(key_list[i]))
-                        file_key.write('\n')
-                        file_key.writelines('Гаммирование')
-                        print("Ключ сгенирирован.\n"
-                              "Возврат в главное меню.")
-                    else:
-                        print("Значение должнно быть > 2."
+        while True:
+            file_key_name = input("Введите имя файла ключа.\n"
+                                  "\t>>")
+            file_key_name = file_key_name + '.key'
+            try:
+                file_key = open(file_key_name, 'w', encoding='utf-8')
+            except Exception:
+                print("Неккоректный ввод.\n"
+                      "Попробуйтесново")
+                continue
+            else:
+                while True:
+                    try:
+                        len_key = int(input('Введите длину ключа.\n'
+                                            '\t>>'))
+                    except ValueError:
+                        print("Необходимо ввести целочисленное значение.\n"
                               "Попробуйте сново.")
                         continue
-                finally:
-                    file_key.close()
-                    break
+                    else:
+                        if len_key > 2:
+                            key_list = [x for x in range(len_key)]
+                            file_key.write(alph_list[0])
+                            for i in range(1, len(alph_list)):
+                                file_key.write(' - ' + str(alph_list[i]))
+                            file_key.write('\n')
+                            key_list[0] = random.randint(0, mod)
+                            file_key.write(str(key_list[0]))
+                            for i in range(1, len_key):
+                                key_list[i] = random.randint(0, mod)
+                                file_key.write(' - ' + str(key_list[i]))
+                            file_key.write('\n')
+                            file_key.writelines('Гаммирование')
+                            print("Ключ сгенирирован.\n"
+                                  "Возврат в главное меню.")
+                            file_key.close()
+                            break
+                        else:
+                            print("Значение должнно быть > 2.\n"
+                                  "Попробуйте сново.")
+                            continue
+            break
+
 
     def key_error(self, key_name):
         while True:
@@ -583,7 +585,7 @@ class Method_3(Main):
                 if file_de.readline() == 'Гаммирование\n':
                     print()
                 elif file_de.readline() != 'Гаммирование\n':
-                    print("Файл шифртекста не совпадает с методом расшифровкию"
+                    print("Файл шифртекста не совпадает с методом расшифровки.\n"
                           "Возврат в главное меню.")
                     break
                 else:
