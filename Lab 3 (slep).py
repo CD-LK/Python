@@ -433,17 +433,23 @@ class Method_3(Main):
                 file_alph.readline()
             for i in range(len(alph_list)):
                 try:
-                    if alph_list.count(alph_list[i]) > 1:
+                    char_count = alph_list.count(alph_list[i])
+                    if char_count> 1:
                         del_sim = alph_list[i]
-                        alph_list.reverse()
-                        alph_list.remove(del_sim)
-                        alph_list.reverse()
+                        for i in range(char_count-1):
+                            alph_list.reverse()
+                            alph_list.remove(del_sim)
+                            alph_list.reverse()
                 except IndexError:
                     continue
-            for i in range(len(alph_list)):
-                if alph_list[i] == '':
-                    alph_list.remove(alph_list[i])
-        alph_list.remove('\n')
+            wrong_char_count_1 = alph_list.count('')
+            wrong_char_count_2 = alph_list.count('\n')
+            for i in range(wrong_char_count_1):
+                alph_list.remove('')
+            for i in range(wrong_char_count_2):
+                alph_list.remove('\n')
+
+        print(alph_list)
         mod = len(alph_list)
         while True:
             file_key_name = input("Введите имя файла ключа.\n"
