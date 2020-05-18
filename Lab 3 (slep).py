@@ -233,12 +233,16 @@ class Method_1(Main):
         file_a_name = self._way_test('alph')
         with open(file_a_name, 'r', encoding='utf-8') as file_alph:
             size_alph = len(file_alph.readlines())
-            alph_list = [x for x in range(size_alph)]
+            alph_list = []
             file_alph.seek(0)
             for i in range(size_alph):
-                alph_list[i] = file_alph.read(1)
+                char = file_alph.read(1)
+                if char =='\n':
+                    continue
+                alph_list.append(char)
                 file_alph.readline()
         for i in range(len(alph_list)):
+
             try:
                 if alph_list.count(alph_list[i]) > 1:
                     del_sim = alph_list[i]
@@ -296,7 +300,7 @@ class Method_1(Main):
                         if len(line[0]) == 1:
                             alph_list.append(line[0])
                         elif len(line[0]) != 1:
-                            print("Алфавитная часть ключа содержит слово.\n"
+                            print("Алфавитная часть ключа содержит элемент длинны больше двух.\n"
                                   "Пожалуйста сгенерируйте ключ.")
                             return False
                         else:
@@ -306,7 +310,9 @@ class Method_1(Main):
                         if len(line[1][0]) == 1:
                             key_list.append(line[1][0])
                         elif len(line[1][0]) != 1:
-                            print("Шифрующая часть ключа содержит слово.\n"
+                            print(line)
+                            print(line[1])
+                            print("Шифрующая часть ключа содержит элемент длинны больше двух.\n"
                                   "Пожалуйста сгенерируйте ключ.")
                             return False
                         else:
