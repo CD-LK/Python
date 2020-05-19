@@ -237,7 +237,7 @@ class Method_1(Main):
             file_alph.seek(0)
             for i in range(size_alph):
                 char = file_alph.read(1)
-                if char =='\n':
+                if char == '\n':
                     continue
                 alph_list.append(char)
                 file_alph.readline()
@@ -381,37 +381,58 @@ class Method_1(Main):
             print("Неизвестная ошибка!")
             exit()
 
+    def _decrypt_format_test(self, decrypt_fiel, encoding):
+        with open(decrypt_fiel, 'r', encoding=encoding)as file_de:
+            file_de.seek(0)
+            if file_de.readline() == 'Замена\n':
+                return True
+            elif file_de.readline() != 'Замена\n':
+                print("Файл шифртекста не совпадает с методом расшифровки.\n"
+                      "Возврат в главное меню.")
+                return False
+            else:
+                print("Неизвестная ошибка!")
+                exit()
+
+    def _decrypt_test(self, decrypt_file, text_file, alph, key, encoding):
+        with open(decrypt_file, 'r', encoding=encoding) as file_crypt:
+            file_size = len(file_crypt.read())
+            file_crypt.seek(0)
+            file_crypt.readline()
+            with open(text_file, 'a')as file_txt:
+                for i in range(file_size):
+                    char = file_crypt.read(1)
+                    for key_size in range(len(alph)):
+                        if char == key[key_size]:
+                            file_txt.writelines(alph[key_size])
+                            break
+                        elif key_size == len(alph) - 1 and char != key[key_size]:
+                            file_txt.writelines(str(char))
+                        elif char != key[key_size]:
+                            continue
+
     def decrypt(self):
         file_decrytp_text_name = self._decrypt_file(self._way_test('encrypt'))  # 0 - шифртекст, 1 - текст
         while True:
-            with open(file_decrytp_text_name[0], 'r', encoding='windows-1251')as file_de:
-                file_de.seek(0)
-                if file_de.readline() == 'Замена\n':
-                    pass
-                elif file_de.readline() != 'Замена\n':
-                    print("Файл шифртекста не совпадает с методом расшифровки.\n"
-                          "Возврат в главное меню.")
+            try:
+                test = self._decrypt_format_test(file_decrytp_text_name[0], 'utf-8')
+                print('Encoding: utf-8')
+            except UnicodeDecodeError:
+                test = self._decrypt_format_test(file_decrytp_text_name[0], 'windows-1251')
+                print('Encoding: windows-1251')
+            finally:
+                if test == False:
                     break
-                else:
-                    print("Неизвестная ошибка!")
-                    exit()
-            alph_key = self.key_error(self._way_test('key'))
+            alph_key = self.key_error(self._way_test('key'))  # 0 - алфавит, 1 - ключ
             if alph_key != False:
-                with open(file_decrytp_text_name[0], 'r', encoding='windows-1251') as file_crypt:
-                    file_size = len(file_crypt.read())
-                    file_crypt.seek(0)
-                    file_crypt.readline()
-                    with open(file_decrytp_text_name[1], 'a')as file_txt:
-                        for i in range(file_size):
-                            char = file_crypt.read(1)
-                            for key_size in range(len(alph_key[0])):
-                                if char == alph_key[1][key_size]:
-                                    file_txt.writelines(alph_key[0][key_size])
-                                    break
-                                elif key_size == len(alph_key[0]) - 1 and char != alph_key[1][key_size]:
-                                    file_txt.writelines(str(char))
-                                elif char != alph_key[1][key_size]:
-                                    continue
+                try:
+                    self._decrypt_test(file_decrytp_text_name[0], file_decrytp_text_name[1], alph_key[0], alph_key[1],
+                                       'utf-8')
+                    print('Encoding: utf-8')
+                except UnicodeDecodeError:
+                    self._decrypt_test(file_decrytp_text_name[0], file_decrytp_text_name[1], alph_key[0], alph_key[1],
+                                       'windows-1251')
+                    print('Encoding: windows-1251')
             elif alph_key == False:
                 print('Возврат в главное меню')
                 break
@@ -440,9 +461,9 @@ class Method_3(Main):
             for i in range(len(alph_list)):
                 try:
                     char_count = alph_list.count(alph_list[i])
-                    if char_count> 1:
+                    if char_count > 1:
                         del_sim = alph_list[i]
-                        for i in range(char_count-1):
+                        for i in range(char_count - 1):
                             alph_list.reverse()
                             alph_list.remove(del_sim)
                             alph_list.reverse()
