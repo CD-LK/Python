@@ -62,6 +62,8 @@ def create_note(path_dir, way_key, password):
     flag = 0
     while True:
         note_way = create_path_note_2(path_dir)
+        if note_way == False:
+            return False
         try:
             note_file = open(note_way, 'w')
         except Exception:
@@ -131,6 +133,8 @@ def delet_note(path_dir, acc_name):
         return False
     while True:
         delete_way = create_path_note_1(path_dir)
+        if delete_way == False:
+            return False
         check = os.path.exists(delete_way)
         if check == True:
             os.remove(delete_way)
