@@ -38,7 +38,7 @@ def split(low_limit: int, upp_limit: int) -> Tuple[
     for i in range(low_limit, upp_limit, 3):
         list_1.append(i)
         list_2.append(i + 1)
-        list_3.append(i + 1)
+        list_3.append(i + 2)
     return list_1, list_2, list_3
 
 
