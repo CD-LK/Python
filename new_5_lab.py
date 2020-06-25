@@ -24,7 +24,7 @@ def Atkin(limit: int, file: str, start: int) -> None:
             if time.time() - t >= 5:
                 print('Процесс №:00-' + str(start) + '. x - ' + str(x) + '|y - ' + str(y))
                 t = time.time()
-    with open(file, 'w') as file_w:
+    with open(file, 'w', encoding='utf-7') as file_w:
         for i in range(len(sieve)):
             file_w.write(str(sieve[i]) + '\n')
     print("Процесс №:00-" + str(start) + " закончен.")
@@ -33,7 +33,7 @@ def Atkin(limit: int, file: str, start: int) -> None:
 def creat_path(name: str) -> str:  # Создает файл с name, возвращает путь к файлу.
     path = os.getcwd()
     full_path = os.path.join(path, name)
-    with open(full_path, 'w') as file:
+    with open(full_path, 'w', encoding='utf-8') as file:
         pass
     return full_path
 
@@ -72,7 +72,7 @@ def pool_read_file(file_1: str, file_2: str, file_3: str) -> List[List[str]]:
 
 def finaly(list_1: List[str], list_2: List[str], list_3: List[str]) -> List[bool]:
     lens = len(list_1)
-    finaly_list = [False] * lens
+    finaly_list = [False] * len(list_1)
     print("Оброботка данных.")
     for i in range(0, lens):
         if list_1[i] == 'False':
@@ -88,6 +88,7 @@ def finaly(list_1: List[str], list_2: List[str], list_3: List[str]) -> List[bool
         else:
             p_3 = True
         finaly_list[i] = (p_1 + p_2 + p_3) % 2
+
     prime_list = [False] * len(finaly_list)
     for num, chek in enumerate(finaly_list):
         if chek == 1:
@@ -98,7 +99,7 @@ def finaly(list_1: List[str], list_2: List[str], list_3: List[str]) -> List[bool
     for x in range(5, int(math.sqrt(len(finaly_list)))):
         if prime_list[x]:
             for y in range(x ** 2, limit + 1, x ** 2):
-                prime_list[y] == False
+                prime_list[y] = False
     return prime_list
 
 
@@ -132,6 +133,9 @@ if __name__ == '__main__':
                 f_list.append(num)
         f_list.sort()
         print("Время работы: " + str(time.time() - z) + 'секунды')
+        os.remove(file1)
+        os.remove(file2)
+        os.remove(file3)
         path = creat_path('Prime.txt')
         with open(path, 'w')as file:
             file.write('2\n3\n5\n')
