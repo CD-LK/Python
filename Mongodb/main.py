@@ -137,7 +137,6 @@ class MyWin(QtWidgets.QMainWindow):
                     LoadData(coll, CreateDick(k[1], k[2], k[3], k[4], k[5], k[6], k[7]))
                     if p.wasCanceled():
                         break
-                print("sasal: " + str(timeit.default_timer() - a) + 'seck')
                 p.setValue(whait)
 
     def SearchByNickname(self):
